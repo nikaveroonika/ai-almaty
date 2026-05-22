@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "set -a && source .env && set +a && exec npx -y @modelcontextprotocol/server-postgres \"postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB?sslmode=verify-ca&sslrootcert=./ca.pem\""
+      ]
+    }
+  }
+}

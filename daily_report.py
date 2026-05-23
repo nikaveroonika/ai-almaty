@@ -39,13 +39,15 @@ def fetch_yesterday_stats() -> dict:
 
     with get_connection() as conn, conn.cursor() as cur:
         cur.execute("""
-            SELECT COUNT(*), ROUND(SUM(total_amount)::numeric, 0), ROUND(AVG(total_amount)::numeric, 0)
+            SELECT COUNT(*),
+                   ROUND(COALESCE(SUM(total_amount), 0)::numeric, 0),
+                   ROUND(COALESCE(AVG(total_amount), 0)::numeric, 0)
             FROM orders WHERE ordered_at::date = %s
         """, (yesterday,))
         orders, revenue, avg_order = cur.fetchone()
 
         cur.execute("""
-            SELECT COUNT(*), ROUND(SUM(total_amount)::numeric, 0)
+            SELECT COUNT(*), ROUND(COALESCE(SUM(total_amount), 0)::numeric, 0)
             FROM orders WHERE ordered_at::date = %s
         """, (day_before,))
         prev_orders, prev_revenue = cur.fetchone()

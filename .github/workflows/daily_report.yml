@@ -16,6 +16,9 @@ jobs:
       - name: Установить зависимости
         run: pip install psycopg2-binary python-dotenv requests
 
+      - name: Настроить DNS (Yandex Cloud KZ)
+        run: echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf
+
       - name: Забрать данные из PostgreSQL
         env:
           POSTGRES_HOST:     ${{ secrets.POSTGRES_HOST }}
